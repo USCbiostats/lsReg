@@ -32,6 +32,8 @@ int lslinregfit(const arma::vec &y,
                 const arma::mat &rtl,
                 arma::vec &bt,
                 arma::vec &bb,
+                arma::vec &betat,
+                arma::vec &betab,
                 arma::mat &qr,
                 arma::mat &rtr,
                 arma::mat &rbr,
@@ -46,9 +48,90 @@ int lslinregfit(const arma::vec &y,
   arma::mat bbt = bb.t();
   solve(bbt, rbr, zb);
   bt = beta0 - h*bbt;
-  bb = bbt.t();
-  
+  bb = bbt;
+  betat = bt;
+  betab = bb;
+
   return 0;
+}
+
+// [[Rcpp::export]]
+int lslinregfit2(const arma::vec &y,
+                 const arma::mat &xl,
+                 const arma::mat &xr,
+                 const arma::uvec &missxr,
+                 const arma::vec &beta0,
+                 const arma::vec &yp0,
+                 const arma::mat &ql,
+                 const arma::mat &rtl,
+                 const arma::vec &k0,
+                 arma::vec &beta,
+                 arma::vec &bt,
+                 arma::vec &bb,
+                 arma::vec &betat,
+                 arma::vec &betab,
+                 arma::vec &abx,
+                 arma::mat &h,
+                 arma::vec &k,
+                 arma::mat &qr,
+                 arma::mat &rtr,
+                 arma::mat &rbr,
+                 arma::vec &scoret,
+                 arma::vec &scoreb,
+                 arma::mat &t,
+                 arma::vec &yp,
+                 arma::vec &zt,
+                 arma::vec &zb) {
+  int p;
+  int q;
+  int ncov;
+  
+  p = xl.n_cols;
+  q = xr.n_cols;
+  ncov = xl.n_cols + q;
+  
+  beta.subvec(0, ncov - 1) = arma::zeros(ncov);
+  beta.subvec(0, p - 1) = beta0;
+  
+  rtr = ql.t() * xr;
+  t = xr - ql * rtr;
+  qr_econ(qr, rbr, t);
+  if (solve(h, rtl, rtr, arma::solve_opts::no_approx) == false) {
+    beta[0] = 3.;
+    return 3;
+  }
+  
+  betat = beta0;
+  betab = arma::zeros(q);
+
+  for (int i = 0; i < 15; ++i) {
+    abx = xl * betat + xr * betab;
+    yp = y - abx;
+    yp.elem(missxr) *= 0;
+    scoret = xl.t() * yp;
+    scoreb = xr.t() * yp;
+    if (max(abs(scoret)) < 1e-6 && max(abs(scoreb)) < 1e-6) {
+      beta.subvec(0, p - 1) = betat;
+      beta.subvec(p, ncov - 1) = betab;
+      return 0;
+    }
+    
+    zb = qr.t() * yp;
+    if (solve(bb, rbr, zb, arma::solve_opts::no_approx) == false) {
+      beta[0] = 4;
+      return 4;
+    }
+    zt = ql.t() * yp;
+    if (solve(k, rtl, zt, arma::solve_opts::no_approx) == false) {
+      beta[0] = 5;
+      return 5;
+    }
+    bt = k - h * bb;
+    betat += bt;
+    betab += bb;
+  }
+
+  return 6;
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -243,7 +326,7 @@ int lslinregwaldtest(const arma::vec &y,
   if (xr.n_cols == 1)
     testvalue(0,0) = bb(0) / sqrt(xtxinv(n-1,n-1) * s2[0]);
   else
-    testvalue = (bb.t() * pinv(xtxinv.submat(p,p,n-1,n-1)) * bb) / s2[1];
+    testvalue = (bb.t() * pinv(xtxinv.submat(p,p,n-1,n-1)) * bb) / s2[0];
 
   return 0;
 }

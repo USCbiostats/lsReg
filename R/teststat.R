@@ -22,6 +22,8 @@ runtest <- function(lsregmem, xr) {
                   rtl = lsregmem$fitdata$rtl,
                   bt = lsregmem$fitdata$bt,
                   bb = lsregmem$fitdata$bb,
+                  betat = lsregmem$fitdata$betat,
+                  betab = lsregmem$fitdata$betab,
                   qr = lsregmem$fitdata$qr,
                   rtr = lsregmem$fitdata$rtr,
                   rbr = lsregmem$fitdata$rbr,

@@ -53,6 +53,8 @@ allocate.lslinregmem.fit <- function(data, beta0, n, p, q) {
   rtl <- matrix(0, p, p)
   bt <- numeric(p)
   bb <- numeric(q)
+  betat <- numeric(p)
+  betab <- numeric(q)
   qr <- matrix(0, n, q)
   rtr <- matrix(0, p, q)
   rbr <- matrix(0, q, q)
@@ -72,11 +74,80 @@ allocate.lslinregmem.fit <- function(data, beta0, n, p, q) {
                  rtl = rtl,
                  bt = bt,
                  bb = bb,
+                 betat = betat,
+                 betab = betab,
                  qr = qr,
                  rtr = rtr,
                  rbr = rbr,
                  h = h,
                  t = t,
+                 zb = zb)
+  class(retval) <- "fitdata"
+  return(retval)
+}
+
+allocate.lslinregmem2.fit <- function(data, beta0, n, p, q) {
+  y <- data[,1]
+  xl <- as.matrix(data[,1:p])
+  xl[,1] <- 1.  
+  ql0 <- matrix(0, n, p)
+  rtl0 <- matrix(0, p, p)
+  rtl0inv <- matrix(0, p, p)
+  xtx0 <- matrix(0, p + q, p + q)
+  xtx0inv <- matrix(0, p, p)
+  yp0 <- numeric(n)
+  w0 <- numeric(n)
+  w0inv <- numeric(n)
+  xlw0 <- matrix(0, n, p)
+  k0 <- numeric(p)
+  abx <- numeric(n)
+  beta <- numeric(p + q)
+  bt <- numeric(p)
+  bb <- numeric(q)
+  betat <- numeric(p)
+  betab <- numeric(q)
+  h <- matrix(0, p, q)
+  k <- numeric(p)
+  qr <- matrix(0, n, q)
+  rtr <- matrix(0, p, q)
+  rbr <- matrix(0, q, q)
+  scoret <- numeric(p)
+  scoreb <- numeric(q)
+  t <- matrix(0, n, q)
+  xrw <- matrix(0, n, q)
+  yp <- numeric(n)
+  zt <- numeric(p)
+  zb <- numeric(q)
+  initlslinregfit(xl = xl,
+                  ql = ql0,
+                  rtl = rtl0)
+  retval <- list(family = "gaussian",
+                 y = y,
+                 xl = xl,
+                 beta0 = beta0,
+                 ql0 = ql0,
+                 rtl0 = rtl0,
+                 yp0 = yp0,
+                 k0 = k0,
+                 w0 = w0,
+                 w0inv = w0inv,
+                 beta = beta,
+                 bt = bt,
+                 bb = bb,
+                 betat = betat,
+                 betab = betab,
+                 abx = abx,
+                 h = h,
+                 k = k,
+                 qr = qr,
+                 rtr = rtr,
+                 rbr = rbr,
+                 scoret = scoret,
+                 scoreb = scoreb,
+                 t = t,
+                 xrw = xrw,
+                 yp = yp,
+                 zt = zt,
                  zb = zb)
   class(retval) <- "fitdata"
   return(retval)

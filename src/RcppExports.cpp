@@ -25,8 +25,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // lslinregfit
-int lslinregfit(const arma::vec& y, const arma::mat& xl, const arma::mat& xr, const arma::vec& beta0, const arma::mat& ql, const arma::mat& rtl, arma::vec& bt, arma::vec& bb, arma::mat& qr, arma::mat& rtr, arma::mat& rbr, arma::mat& h, arma::mat& t, arma::vec& zb);
-RcppExport SEXP _lsReg_lslinregfit(SEXP ySEXP, SEXP xlSEXP, SEXP xrSEXP, SEXP beta0SEXP, SEXP qlSEXP, SEXP rtlSEXP, SEXP btSEXP, SEXP bbSEXP, SEXP qrSEXP, SEXP rtrSEXP, SEXP rbrSEXP, SEXP hSEXP, SEXP tSEXP, SEXP zbSEXP) {
+int lslinregfit(const arma::vec& y, const arma::mat& xl, const arma::mat& xr, const arma::vec& beta0, const arma::mat& ql, const arma::mat& rtl, arma::vec& bt, arma::vec& bb, arma::vec& betat, arma::vec& betab, arma::mat& qr, arma::mat& rtr, arma::mat& rbr, arma::mat& h, arma::mat& t, arma::vec& zb);
+RcppExport SEXP _lsReg_lslinregfit(SEXP ySEXP, SEXP xlSEXP, SEXP xrSEXP, SEXP beta0SEXP, SEXP qlSEXP, SEXP rtlSEXP, SEXP btSEXP, SEXP bbSEXP, SEXP betatSEXP, SEXP betabSEXP, SEXP qrSEXP, SEXP rtrSEXP, SEXP rbrSEXP, SEXP hSEXP, SEXP tSEXP, SEXP zbSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -38,13 +38,51 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const arma::mat& >::type rtl(rtlSEXP);
     Rcpp::traits::input_parameter< arma::vec& >::type bt(btSEXP);
     Rcpp::traits::input_parameter< arma::vec& >::type bb(bbSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type betat(betatSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type betab(betabSEXP);
     Rcpp::traits::input_parameter< arma::mat& >::type qr(qrSEXP);
     Rcpp::traits::input_parameter< arma::mat& >::type rtr(rtrSEXP);
     Rcpp::traits::input_parameter< arma::mat& >::type rbr(rbrSEXP);
     Rcpp::traits::input_parameter< arma::mat& >::type h(hSEXP);
     Rcpp::traits::input_parameter< arma::mat& >::type t(tSEXP);
     Rcpp::traits::input_parameter< arma::vec& >::type zb(zbSEXP);
-    rcpp_result_gen = Rcpp::wrap(lslinregfit(y, xl, xr, beta0, ql, rtl, bt, bb, qr, rtr, rbr, h, t, zb));
+    rcpp_result_gen = Rcpp::wrap(lslinregfit(y, xl, xr, beta0, ql, rtl, bt, bb, betat, betab, qr, rtr, rbr, h, t, zb));
+    return rcpp_result_gen;
+END_RCPP
+}
+// lslinregfit2
+int lslinregfit2(const arma::vec& y, const arma::mat& xl, const arma::mat& xr, const arma::uvec& missxr, const arma::vec& beta0, const arma::vec& yp0, const arma::mat& ql, const arma::mat& rtl, const arma::vec& k0, arma::vec& beta, arma::vec& bt, arma::vec& bb, arma::vec& betat, arma::vec& betab, arma::vec& abx, arma::mat& h, arma::vec& k, arma::mat& qr, arma::mat& rtr, arma::mat& rbr, arma::vec& scoret, arma::vec& scoreb, arma::mat& t, arma::vec& yp, arma::vec& zt, arma::vec& zb);
+RcppExport SEXP _lsReg_lslinregfit2(SEXP ySEXP, SEXP xlSEXP, SEXP xrSEXP, SEXP missxrSEXP, SEXP beta0SEXP, SEXP yp0SEXP, SEXP qlSEXP, SEXP rtlSEXP, SEXP k0SEXP, SEXP betaSEXP, SEXP btSEXP, SEXP bbSEXP, SEXP betatSEXP, SEXP betabSEXP, SEXP abxSEXP, SEXP hSEXP, SEXP kSEXP, SEXP qrSEXP, SEXP rtrSEXP, SEXP rbrSEXP, SEXP scoretSEXP, SEXP scorebSEXP, SEXP tSEXP, SEXP ypSEXP, SEXP ztSEXP, SEXP zbSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const arma::vec& >::type y(ySEXP);
+    Rcpp::traits::input_parameter< const arma::mat& >::type xl(xlSEXP);
+    Rcpp::traits::input_parameter< const arma::mat& >::type xr(xrSEXP);
+    Rcpp::traits::input_parameter< const arma::uvec& >::type missxr(missxrSEXP);
+    Rcpp::traits::input_parameter< const arma::vec& >::type beta0(beta0SEXP);
+    Rcpp::traits::input_parameter< const arma::vec& >::type yp0(yp0SEXP);
+    Rcpp::traits::input_parameter< const arma::mat& >::type ql(qlSEXP);
+    Rcpp::traits::input_parameter< const arma::mat& >::type rtl(rtlSEXP);
+    Rcpp::traits::input_parameter< const arma::vec& >::type k0(k0SEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type beta(betaSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type bt(btSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type bb(bbSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type betat(betatSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type betab(betabSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type abx(abxSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type h(hSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type k(kSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type qr(qrSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type rtr(rtrSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type rbr(rbrSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type scoret(scoretSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type scoreb(scorebSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type t(tSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type yp(ypSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type zt(ztSEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type zb(zbSEXP);
+    rcpp_result_gen = Rcpp::wrap(lslinregfit2(y, xl, xr, missxr, beta0, yp0, ql, rtl, k0, beta, bt, bb, betat, betab, abx, h, k, qr, rtr, rbr, scoret, scoreb, t, yp, zt, zb));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -706,7 +744,8 @@ END_RCPP
 
 static const R_CallMethodDef CallEntries[] = {
     {"_lsReg_initlslinregfit", (DL_FUNC) &_lsReg_initlslinregfit, 3},
-    {"_lsReg_lslinregfit", (DL_FUNC) &_lsReg_lslinregfit, 14},
+    {"_lsReg_lslinregfit", (DL_FUNC) &_lsReg_lslinregfit, 16},
+    {"_lsReg_lslinregfit2", (DL_FUNC) &_lsReg_lslinregfit2, 26},
     {"_lsReg_initlslinreglrt", (DL_FUNC) &_lsReg_initlslinreglrt, 5},
     {"_lsReg_lslinreglrt", (DL_FUNC) &_lsReg_lslinreglrt, 8},
     {"_lsReg_initlslinregscore", (DL_FUNC) &_lsReg_initlslinregscore, 7},
