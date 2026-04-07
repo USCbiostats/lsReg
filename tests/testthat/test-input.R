@@ -18,5 +18,5 @@ test_that("lsreg_input", {
   
   mdl$family$family <- "test"
   expect_error(lsReg(basemdl = mdl),
-               "Family of model must be guassian, bionomial or poisson")
+               "Family of model must be gaussian, binomial or poisson")
 })

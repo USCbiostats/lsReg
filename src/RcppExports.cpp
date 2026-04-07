@@ -731,16 +731,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// lsregC
-int lsregC();
-RcppExport SEXP _lsReg_lsregC() {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    rcpp_result_gen = Rcpp::wrap(lsregC());
-    return rcpp_result_gen;
-END_RCPP
-}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_lsReg_initlslinregfit", (DL_FUNC) &_lsReg_initlslinregfit, 3},
@@ -775,7 +765,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_lsReg_initlspoisregrobustscore", (DL_FUNC) &_lsReg_initlspoisregrobustscore, 15},
     {"_lsReg_pois_wald_test", (DL_FUNC) &_lsReg_pois_wald_test, 12},
     {"_lsReg_pois_robustwald_test", (DL_FUNC) &_lsReg_pois_robustwald_test, 15},
-    {"_lsReg_lsregC", (DL_FUNC) &_lsReg_lsregC, 0},
     {NULL, NULL, 0}
 };
 

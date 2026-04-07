@@ -129,7 +129,3 @@ pois_robustwald_test <- function(xl, xr, betab, expabx, resids, w, xw, xrr, q, r
     .Call(`_lsReg_pois_robustwald_test`, xl, xr, betab, expabx, resids, w, xw, xrr, q, r, rinv, xtx, xtxinv, hws2, testvalue)
 }
 
-lsregC <- function() {
-    .Call(`_lsReg_lsregC`)
-}
-

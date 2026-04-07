@@ -2,20 +2,28 @@
 % Please edit documentation in R/lsReg.R
 \name{lsReg}
 \alias{lsReg}
-\title{Title}
+\title{Allocate memory for large-scale regression}
 \usage{
 lsReg(basemdl, colstoadd, testtype)
 }
 \arguments{
-\item{basemdl}{Base model, y ~ xl, fitted with glm}
+\item{basemdl}{Base model of the form \code{y ~ xl}, fitted with \code{glm}.
+Must be of family \code{gaussian}, \code{binomial}, or \code{poisson}.}
 
-\item{colstoadd}{Number of columns in xr. Full model will be y ~ xl + xr}
+\item{colstoadd}{Number of columns in \code{xr}. The full model tested will
+be \code{y ~ xl + xr}.}
+
+\item{testtype}{Character string specifying the test type. One of
+\code{"lrt"} (default), \code{"score"}, \code{"robustscore"},
+\code{"wald"}, or \code{"robustwald"}.}
 }
 \value{
-The data set
+An object of class \code{lsregmem} containing pre-allocated matrices
+and cached quantities from the base model, for use with \code{\link{runtest}}.
 }
 \description{
-Title
+Prepares and caches data structures from a fitted base GLM for use in
+repeated large-scale hypothesis tests via \code{\link{runtest}}.
 }
 \examples{
 linmdlfile <- system.file("extdata", "linmodel.rds", package = "lsReg")

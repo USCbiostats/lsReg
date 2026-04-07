@@ -19,21 +19,18 @@ Authors@R:
       person(given = "NHLBI",
              role = "fnd",
              comment = "HL115606"))
-Date: 2022-05-09
+Date: 2026-04-07
 Maintainer: John Morrison <jmorr@usc.edu>
 Description: Routines to perform large scale regression. Linear, logistic,
     and Poisson regressions are supported. Large scale regression efficiently
     fits models where a small number of covariates are changing and the
-    subjects have complete data. A geneome wide accociation study would be
+    subjects have complete data. A genome wide association study would be
     an example.
 License: GPL-3
 Encoding: UTF-8
-Suggests: 
-    knitr,
-    rmarkdown,
+Suggests:
     testthat (>= 3.0.0)
-VignetteBuilder: knitr
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.3
 Roxygen: list(markdown = TRUE)
 LinkingTo: 
     Rcpp,

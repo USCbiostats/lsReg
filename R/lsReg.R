@@ -3,14 +3,20 @@
 #' @importFrom methods is
 NULL
 
-#' Title
+#' Allocate memory for large-scale regression
 #'
-#' @param basemdl 
-#' Base model, y ~ xl, fitted with glm
-#' @param colstoadd
-#' Number of columns in xr. Full model will be y ~ xl + xr
-#' @return
-#' The data set
+#' Prepares and caches data structures from a fitted base GLM for use in
+#' repeated large-scale hypothesis tests via \code{\link{runtest}}.
+#'
+#' @param basemdl Base model of the form \code{y ~ xl}, fitted with \code{glm}.
+#'   Must be of family \code{gaussian}, \code{binomial}, or \code{poisson}.
+#' @param colstoadd Number of columns in \code{xr}. The full model tested will
+#'   be \code{y ~ xl + xr}.
+#' @param testtype Character string specifying the test type. One of
+#'   \code{"lrt"} (default), \code{"score"}, \code{"robustscore"},
+#'   \code{"wald"}, or \code{"robustwald"}.
+#' @return An object of class \code{lsregmem} containing pre-allocated matrices
+#'   and cached quantities from the base model, for use with \code{\link{runtest}}.
 #' @export
 #'
 #' @examples
@@ -24,7 +30,7 @@ lsReg <- function(basemdl, colstoadd, testtype) {
     stop("Base model is not of class glm")
   mdltype <- match(basemdl$family$family, c("gaussian", "binomial", "poisson"))
   if (is.na(mdltype) == TRUE)
-    stop("Family of model must be guassian, bionomial or poisson")
+    stop("Family of model must be gaussian, binomial or poisson")
   
   if (missing(colstoadd) == TRUE)
     stop("colstoadd not specified")

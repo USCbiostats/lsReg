@@ -2,18 +2,29 @@
 % Please edit documentation in R/teststat.R
 \name{runtest}
 \alias{runtest}
-\title{Title}
+\title{Run a large-scale regression test}
 \usage{
 runtest(lsregmem, xr)
 }
 \arguments{
-\item{lsregmem}{Memory allocated for large scale regression}
+\item{lsregmem}{An object of class \code{lsregmem} as returned by
+\code{\link{lsReg}}.}
 
-\item{xr}{Additional variables to be tested}
+\item{xr}{Numeric matrix of additional covariates to test. Number of columns
+must match the \code{colstoadd} value used in \code{\link{lsReg}}.}
 }
 \value{
-Nonzero value indicates an error
+The test statistic value. Returns \code{1} (nonzero) on error.
 }
 \description{
-Title
+Computes a hypothesis test statistic for one or more new covariates
+\code{xr} using memory pre-allocated by \code{\link{lsReg}}.
+}
+\examples{
+linmdlfile <- system.file("extdata", "linmodel.rds", package = "lsReg")
+subdatafile <- system.file("extdata", "subdata.rds", package = "lsReg")
+linmodel <- readRDS(linmdlfile)
+subdata <- readRDS(subdatafile)
+link <- lsReg(linmodel, 1)
+runtest(link, as.matrix(subdata[, "x2", drop = FALSE]))
 }

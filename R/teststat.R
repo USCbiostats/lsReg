@@ -1,14 +1,25 @@
-#' Title
+#' Run a large-scale regression test
 #'
-#' @param lsregmem Memory allocated for large scale regression
-#' @param xr Additional variables to be tested
+#' Computes a hypothesis test statistic for one or more new covariates
+#' \code{xr} using memory pre-allocated by \code{\link{lsReg}}.
 #'
-#' @return Nonzero value indicates an error
+#' @param lsregmem An object of class \code{lsregmem} as returned by
+#'   \code{\link{lsReg}}.
+#' @param xr Numeric matrix of additional covariates to test. Number of columns
+#'   must match the \code{colstoadd} value used in \code{\link{lsReg}}.
+#'
+#' @return The test statistic value. Returns \code{1} (nonzero) on error.
 #' @export
 #'
 #' @examples
+#' linmdlfile <- system.file("extdata", "linmodel.rds", package = "lsReg")
+#' subdatafile <- system.file("extdata", "subdata.rds", package = "lsReg")
+#' linmodel <- readRDS(linmdlfile)
+#' subdata <- readRDS(subdatafile)
+#' link <- lsReg(linmodel, 1)
+#' runtest(link, as.matrix(subdata[, "x2", drop = FALSE]))
 runtest <- function(lsregmem, xr) {
-  if (class(lsregmem) != "lsregmem")
+  if (!inherits(lsregmem, "lsregmem"))
     return(1)
   if (is.list(lsregmem$fitdata) == TRUE) {
 #    lsreg.fit(fitdata = lsregmem$fitdata,
