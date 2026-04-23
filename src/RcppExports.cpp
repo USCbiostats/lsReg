@@ -137,13 +137,13 @@ BEGIN_RCPP
 END_RCPP
 }
 // lslinregscore
-int lslinregscore(const arma::mat& xl, const arma::vec& xr, const arma::mat& xtx0inv, const arma::vec& resids0, const arma::vec& s2, arma::mat& xtx, arma::mat& info, arma::vec& score, arma::mat& testvalue);
+int lslinregscore(const arma::mat& xl, const arma::mat& xr, const arma::mat& xtx0inv, const arma::vec& resids0, const arma::vec& s2, arma::mat& xtx, arma::mat& info, arma::vec& score, arma::mat& testvalue);
 RcppExport SEXP _lsReg_lslinregscore(SEXP xlSEXP, SEXP xrSEXP, SEXP xtx0invSEXP, SEXP resids0SEXP, SEXP s2SEXP, SEXP xtxSEXP, SEXP infoSEXP, SEXP scoreSEXP, SEXP testvalueSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const arma::mat& >::type xl(xlSEXP);
-    Rcpp::traits::input_parameter< const arma::vec& >::type xr(xrSEXP);
+    Rcpp::traits::input_parameter< const arma::mat& >::type xr(xrSEXP);
     Rcpp::traits::input_parameter< const arma::mat& >::type xtx0inv(xtx0invSEXP);
     Rcpp::traits::input_parameter< const arma::vec& >::type resids0(resids0SEXP);
     Rcpp::traits::input_parameter< const arma::vec& >::type s2(s2SEXP);

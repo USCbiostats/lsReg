@@ -200,7 +200,7 @@ int initlslinregscore(const arma::vec &y,
 
 // [[Rcpp::export]]
 int lslinregscore(const arma::mat &xl,
-                  const arma::vec &xr,
+                  const arma::mat &xr,
                   const arma::mat &xtx0inv,
                   const arma::vec &resids0,
                   const arma::vec &s2,
@@ -216,9 +216,10 @@ int lslinregscore(const arma::mat &xl,
   xtx.submat(p,0,n-1,p-1) = xr.t() * xl;
   xtx.submat(0,p,p-1,n-1) = xtx.submat(p,0,n-1,p-1).t();
   xtx.submat(p,p,n-1,n-1) = xr.t() * xr;
-  
+
   info = (xtx.submat(p,p,n-1,n-1) - xtx.submat(p,0,n-1,p-1)*xtx0inv*xtx.submat(0,p,p-1,n-1))*s2[0];
-  score = arma::sum(arma::diagmat(resids0)*xr, 0);
+  score = sum(xr.each_col() % resids0).t();
+
   if (xr.n_cols == 1)
     testvalue(0,0) = score[0] / sqrt(info[0]);
   else
@@ -274,7 +275,7 @@ int lslinregrobustscore(const arma::mat &xl,
   uut.submat(p,0,n-1,p-1) = uut.submat(0,p,p-1,n-1).t();
   uut.submat(p,p,n-1,n-1) = xrr0.t() * xrr0;
   cmat.submat(0,0,n-p-1,p-1) = -xr.t() * xl * xtx0inv;
-  score = sum(xr.each_col() % resids0);
+  score = sum(xr.each_col() % resids0).t();
   info = cmat * uut * cmat.t();
   
   if (xr.n_cols == 1)
