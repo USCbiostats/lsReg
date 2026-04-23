@@ -1,3 +1,11 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^CLAUDE\.md$
+^scratch$
+^\.positai$
+^\.claude$
+^doc$
+^Meta$
+^README\.md$
+^\.github$
+^cran-comments\.md$

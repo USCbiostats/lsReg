@@ -8,17 +8,27 @@
 #' @param xr Numeric matrix of additional covariates to test. Number of columns
 #'   must match the \code{colstoadd} value used in \code{\link{lsReg}}.
 #'
-#' @return The test statistic value. Returns \code{1} (nonzero) on error.
+#' @return Invisibly returns the exit code (0 on success, nonzero on error).
+#'   After a successful call, results are stored in the \code{lsregmem} object:
+#'   \describe{
+#'     \item{\code{lsregmem$testvalue}}{The test statistic. For \code{"lrt"}
+#'       this is a chi-square statistic (p-values via \code{pchisq}). For all
+#'       other test types this is a z-score (p-values via \code{pnorm}).}
+#'     \item{\code{lsregmem$fitdata$betab}}{The parameter estimate(s) for
+#'       \code{xr}. Not meaningful for \code{"score"} or \code{"robustscore"},
+#'       which do not fit the full model.}
+#'   }
 #' @export
 #'
 #' @examples
-#' linmdlfile <- system.file("extdata", "linmodel.rds", package = "lsReg")
-#' subdatafile <- system.file("extdata", "subdata.rds", package = "lsReg")
-#' linmodel <- readRDS(linmdlfile)
-#' subdata <- readRDS(subdatafile)
-#' link <- lsReg(linmodel, 1)
-#' runtest(link, as.matrix(subdata[, "x2", drop = FALSE]))
-runtest <- function(lsregmem, xr) {
+#' datafile <- system.file("extdata", "simulated_data.rds", package = "lsReg")
+#' dat <- readRDS(datafile)
+#' basemdl <- glm(ylin ~ x1 + x2, data = dat, family = gaussian)
+#' mem <- lsReg(basemdl, colstoadd = 1, testtype = "wald")
+#' addcovar(mem, as.matrix(dat[, "z5", drop = FALSE]))
+#' mem$fitdata$betab[1]  # parameter estimate for z5
+#' mem$testvalue[1, 1]   # Wald z-score for z5
+addcovar <- function(lsregmem, xr) {
   if (!inherits(lsregmem, "lsregmem"))
     return(1)
   if (is.list(lsregmem$fitdata) == TRUE) {

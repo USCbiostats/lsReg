@@ -9,10 +9,6 @@ lslinregfit <- function(y, xl, xr, beta0, ql, rtl, bt, bb, betat, betab, qr, rtr
     .Call(`_lsReg_lslinregfit`, y, xl, xr, beta0, ql, rtl, bt, bb, betat, betab, qr, rtr, rbr, h, t, zb)
 }
 
-lslinregfit2 <- function(y, xl, xr, missxr, beta0, yp0, ql, rtl, k0, beta, bt, bb, betat, betab, abx, h, k, qr, rtr, rbr, scoret, scoreb, t, yp, zt, zb) {
-    .Call(`_lsReg_lslinregfit2`, y, xl, xr, missxr, beta0, yp0, ql, rtl, k0, beta, bt, bb, betat, betab, abx, h, k, qr, rtr, rbr, scoret, scoreb, t, yp, zt, zb)
-}
-
 initlslinreglrt <- function(y, xl, beta, resids, loglike) {
     .Call(`_lsReg_initlslinreglrt`, y, xl, beta, resids, loglike)
 }
@@ -47,14 +43,6 @@ lslinregwaldtest <- function(y, xl, xr, bt, bb, rtlinv, rtr, rbr, resids, s2, rt
 
 lslinregrobustwaldtest <- function(y, xl, xr, bt, bb, rtlinv, rtr, rbr, xlr, xrr, resids, s2, rtrinv, rbrinv, xtxinv, hwinfo, testvalue) {
     .Call(`_lsReg_lslinregrobustwaldtest`, y, xl, xr, bt, bb, rtlinv, rtr, rbr, xlr, xrr, resids, s2, rtrinv, rbrinv, xtxinv, hwinfo, testvalue)
-}
-
-initlslinreg2 <- function(y, xl, ql0, rtl0, rtlinv0, resids0, w0, wxl0, xtx0, xtxinv0, k, zt, sigma2, s2, loglike) {
-    .Call(`_lsReg_initlslinreg2`, y, xl, ql0, rtl0, rtlinv0, resids0, w0, wxl0, xtx0, xtxinv0, k, zt, sigma2, s2, loglike)
-}
-
-lslinregscore2 <- function(xr, w0, wxl0, xtxinv0, resids0, wxr0, xltxr0, info0, score0, scoretest) {
-    .Call(`_lsReg_lslinregscore2`, xr, w0, wxl0, xtxinv0, resids0, wxr0, xltxr0, info0, score0, scoretest)
 }
 
 initlslogregfit <- function(y, xl, beta0, ql0, rtl0, rtl0inv, xtx0, xtx0inv, yp0, w0, w0inv, xlw0, k, abx, expabx, expabxp1, expitabx) {

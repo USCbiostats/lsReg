@@ -5,3 +5,8 @@
 src/*.o
 src/*.so
 src/*.dll
+scratch/
+.positai
+/doc/
+/Meta/
+doc/

@@ -1,0 +1,118 @@
+---
+title: "Hypothesis Tests in lsReg"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Hypothesis Tests in lsReg}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Available test statistics
+
+`lsReg` supports five hypothesis tests for the added covariate(s), specified
+via the `testtype` argument to `lsReg()`:
+
+| `testtype` | Description |
+|---|---|
+| `"lrt"` | Likelihood ratio test — twice the log-likelihood difference between the full and base models |
+| `"score"` | Score (Rao) test — evaluated at the base-model estimates, no full model fit required |
+| `"wald"` | Wald test — based on the maximum likelihood estimate and its standard error |
+| `"robustscore"` | Score test with Huber-White sandwich variance |
+| `"robustwald"` | Wald test with Huber-White sandwich variance |
+
+The **standard** tests (LRT, score, Wald) assume the model is correctly
+specified. The **robust** tests use the Huber-White sandwich estimator for
+the variance-covariance matrix, providing valid inference when the variance
+function is mis-specified (e.g., overdispersion in count data, heteroscedasticity
+in linear models).
+
+### Return values
+
+- `"lrt"` returns a chi-square statistic with degrees of freedom equal to the
+  number of added columns. P-values use `pchisq(..., lower.tail = FALSE)`.
+- All other tests return a z-score. P-values use
+  `2 * pnorm(-abs(statistic))`.
+
+Under correct model specification all five tests are asymptotically equivalent,
+so their statistics should be similar in large samples.
+
+## Example
+
+We use the simulated dataset with `ylin` as the outcome and
+`ylin ~ x1 + x2` as the base model. We test `z5` (a true predictor) and `z9`
+(a true predictor) separately under all five test types and compare the
+resulting p-values.
+
+```{r load-data}
+library(lsReg)
+
+datafile <- system.file("extdata", "simulated_data.rds", package = "lsReg")
+dat <- readRDS(datafile)
+
+basemdl <- glm(ylin ~ x1 + x2, data = dat, family = gaussian)
+```
+
+```{r run-all-tests}
+testtypes <- c("lrt", "score", "robustscore", "wald", "robustwald")
+zvars     <- c("z5", "z9")
+
+results <- expand.grid(testtype = testtypes, variable = zvars,
+                       stringsAsFactors = FALSE)
+results$statistic <- NA_real_
+results$pvalue    <- NA_real_
+
+for (tt in testtypes) {
+  mem <- lsReg(basemdl, colstoadd = 1, testtype = tt)
+  for (zv in zvars) {
+    xr  <- as.matrix(dat[, zv, drop = FALSE])
+    addcovar(mem, xr)
+    stat <- if (tt == "lrt") mem$testvalue[1] else mem$testvalue[1, 1]
+    pval <- if (tt == "lrt") pchisq(stat, df = 1, lower.tail = FALSE) else
+                             2 * pnorm(-abs(stat))
+    idx  <- results$testtype == tt & results$variable == zv
+    results$statistic[idx] <- stat
+    results$pvalue[idx]    <- pval
+  }
+}
+```
+
+## Results
+
+```{r results}
+# Reshape for a readable side-by-side comparison
+res_z5 <- results[results$variable == "z5", c("testtype", "statistic", "pvalue")]
+res_z9 <- results[results$variable == "z9", c("testtype", "statistic", "pvalue")]
+
+cat("=== z5 ===\n")
+print(res_z5, digits = 5, row.names = FALSE)
+
+cat("\n=== z9 ===\n")
+print(res_z9, digits = 5, row.names = FALSE)
+```
+
+For both `z5` and `z9` all five tests yield similar statistics and p-values,
+consistent with the asymptotic equivalence of the tests under a correctly
+specified model. Minor differences arise because each test uses a different
+approximation to the same quantity.
+
+The LRT statistic is on the chi-square scale; the others are z-scores. To
+compare them directly, note that the square root of the LRT statistic
+approximates the z-scores from the other tests:
+
+```{r compare-scales}
+for (zv in zvars) {
+  lrt_z   <- sqrt(results$statistic[results$testtype == "lrt"  & results$variable == zv])
+  wald_z  <-      results$statistic[results$testtype == "wald" & results$variable == zv]
+  score_z <-      results$statistic[results$testtype == "score"& results$variable == zv]
+  cat(zv, "— sqrt(LRT):", round(lrt_z, 4),
+          " Wald:", round(wald_z, 4),
+          " Score:", round(score_z, 4), "\n")
+}
+```

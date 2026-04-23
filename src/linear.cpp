@@ -55,84 +55,6 @@ int lslinregfit(const arma::vec &y,
   return 0;
 }
 
-// [[Rcpp::export]]
-int lslinregfit2(const arma::vec &y,
-                 const arma::mat &xl,
-                 const arma::mat &xr,
-                 const arma::uvec &missxr,
-                 const arma::vec &beta0,
-                 const arma::vec &yp0,
-                 const arma::mat &ql,
-                 const arma::mat &rtl,
-                 const arma::vec &k0,
-                 arma::vec &beta,
-                 arma::vec &bt,
-                 arma::vec &bb,
-                 arma::vec &betat,
-                 arma::vec &betab,
-                 arma::vec &abx,
-                 arma::mat &h,
-                 arma::vec &k,
-                 arma::mat &qr,
-                 arma::mat &rtr,
-                 arma::mat &rbr,
-                 arma::vec &scoret,
-                 arma::vec &scoreb,
-                 arma::mat &t,
-                 arma::vec &yp,
-                 arma::vec &zt,
-                 arma::vec &zb) {
-  int p;
-  int q;
-  int ncov;
-  
-  p = xl.n_cols;
-  q = xr.n_cols;
-  ncov = xl.n_cols + q;
-  
-  beta.subvec(0, ncov - 1) = arma::zeros(ncov);
-  beta.subvec(0, p - 1) = beta0;
-  
-  rtr = ql.t() * xr;
-  t = xr - ql * rtr;
-  qr_econ(qr, rbr, t);
-  if (solve(h, rtl, rtr, arma::solve_opts::no_approx) == false) {
-    beta[0] = 3.;
-    return 3;
-  }
-  
-  betat = beta0;
-  betab = arma::zeros(q);
-
-  for (int i = 0; i < 15; ++i) {
-    abx = xl * betat + xr * betab;
-    yp = y - abx;
-    yp.elem(missxr) *= 0;
-    scoret = xl.t() * yp;
-    scoreb = xr.t() * yp;
-    if (max(abs(scoret)) < 1e-6 && max(abs(scoreb)) < 1e-6) {
-      beta.subvec(0, p - 1) = betat;
-      beta.subvec(p, ncov - 1) = betab;
-      return 0;
-    }
-    
-    zb = qr.t() * yp;
-    if (solve(bb, rbr, zb, arma::solve_opts::no_approx) == false) {
-      beta[0] = 4;
-      return 4;
-    }
-    zt = ql.t() * yp;
-    if (solve(k, rtl, zt, arma::solve_opts::no_approx) == false) {
-      beta[0] = 5;
-      return 5;
-    }
-    bt = k - h * bb;
-    betat += bt;
-    betab += bb;
-  }
-
-  return 6;
-}
 
 /////////////////////////////////////////////////////////////////////////////
 //                   Likelihood Ratio                                      //
@@ -200,7 +122,7 @@ int initlslinregscore(const arma::vec &y,
 
 // [[Rcpp::export]]
 int lslinregscore(const arma::mat &xl,
-                  const arma::vec &xr,
+                  const arma::mat &xr,
                   const arma::mat &xtx0inv,
                   const arma::vec &resids0,
                   const arma::vec &s2,
@@ -216,9 +138,10 @@ int lslinregscore(const arma::mat &xl,
   xtx.submat(p,0,n-1,p-1) = xr.t() * xl;
   xtx.submat(0,p,p-1,n-1) = xtx.submat(p,0,n-1,p-1).t();
   xtx.submat(p,p,n-1,n-1) = xr.t() * xr;
-  
+
   info = (xtx.submat(p,p,n-1,n-1) - xtx.submat(p,0,n-1,p-1)*xtx0inv*xtx.submat(0,p,p-1,n-1))*s2[0];
-  score = arma::sum(arma::diagmat(resids0)*xr, 0);
+  score = sum(xr.each_col() % resids0).t();
+
   if (xr.n_cols == 1)
     testvalue(0,0) = score[0] / sqrt(info[0]);
   else
@@ -274,7 +197,7 @@ int lslinregrobustscore(const arma::mat &xl,
   uut.submat(p,0,n-1,p-1) = uut.submat(0,p,p-1,n-1).t();
   uut.submat(p,p,n-1,n-1) = xrr0.t() * xrr0;
   cmat.submat(0,0,n-p-1,p-1) = -xr.t() * xl * xtx0inv;
-  score = sum(xr.each_col() % resids0);
+  score = sum(xr.each_col() % resids0).t();
   info = cmat * uut * cmat.t();
   
   if (xr.n_cols == 1)
