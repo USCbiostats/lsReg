@@ -259,51 +259,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// initlslinreg2
-int initlslinreg2(const arma::vec& y, const arma::mat& xl, arma::mat& ql0, arma::mat& rtl0, arma::mat& rtlinv0, arma::vec& resids0, arma::vec& w0, arma::mat& wxl0, arma::mat& xtx0, arma::mat& xtxinv0, arma::vec& k, arma::vec& zt, arma::vec& sigma2, arma::vec& s2, arma::vec& loglike);
-RcppExport SEXP _lsReg_initlslinreg2(SEXP ySEXP, SEXP xlSEXP, SEXP ql0SEXP, SEXP rtl0SEXP, SEXP rtlinv0SEXP, SEXP resids0SEXP, SEXP w0SEXP, SEXP wxl0SEXP, SEXP xtx0SEXP, SEXP xtxinv0SEXP, SEXP kSEXP, SEXP ztSEXP, SEXP sigma2SEXP, SEXP s2SEXP, SEXP loglikeSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const arma::vec& >::type y(ySEXP);
-    Rcpp::traits::input_parameter< const arma::mat& >::type xl(xlSEXP);
-    Rcpp::traits::input_parameter< arma::mat& >::type ql0(ql0SEXP);
-    Rcpp::traits::input_parameter< arma::mat& >::type rtl0(rtl0SEXP);
-    Rcpp::traits::input_parameter< arma::mat& >::type rtlinv0(rtlinv0SEXP);
-    Rcpp::traits::input_parameter< arma::vec& >::type resids0(resids0SEXP);
-    Rcpp::traits::input_parameter< arma::vec& >::type w0(w0SEXP);
-    Rcpp::traits::input_parameter< arma::mat& >::type wxl0(wxl0SEXP);
-    Rcpp::traits::input_parameter< arma::mat& >::type xtx0(xtx0SEXP);
-    Rcpp::traits::input_parameter< arma::mat& >::type xtxinv0(xtxinv0SEXP);
-    Rcpp::traits::input_parameter< arma::vec& >::type k(kSEXP);
-    Rcpp::traits::input_parameter< arma::vec& >::type zt(ztSEXP);
-    Rcpp::traits::input_parameter< arma::vec& >::type sigma2(sigma2SEXP);
-    Rcpp::traits::input_parameter< arma::vec& >::type s2(s2SEXP);
-    Rcpp::traits::input_parameter< arma::vec& >::type loglike(loglikeSEXP);
-    rcpp_result_gen = Rcpp::wrap(initlslinreg2(y, xl, ql0, rtl0, rtlinv0, resids0, w0, wxl0, xtx0, xtxinv0, k, zt, sigma2, s2, loglike));
-    return rcpp_result_gen;
-END_RCPP
-}
-// lslinregscore2
-int lslinregscore2(const arma::mat& xr, const arma::vec& w0, const arma::mat& wxl0, const arma::mat& xtxinv0, const arma::vec& resids0, arma::mat& wxr0, arma::mat& xltxr0, arma::mat& info0, arma::vec& score0, arma::mat& scoretest);
-RcppExport SEXP _lsReg_lslinregscore2(SEXP xrSEXP, SEXP w0SEXP, SEXP wxl0SEXP, SEXP xtxinv0SEXP, SEXP resids0SEXP, SEXP wxr0SEXP, SEXP xltxr0SEXP, SEXP info0SEXP, SEXP score0SEXP, SEXP scoretestSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const arma::mat& >::type xr(xrSEXP);
-    Rcpp::traits::input_parameter< const arma::vec& >::type w0(w0SEXP);
-    Rcpp::traits::input_parameter< const arma::mat& >::type wxl0(wxl0SEXP);
-    Rcpp::traits::input_parameter< const arma::mat& >::type xtxinv0(xtxinv0SEXP);
-    Rcpp::traits::input_parameter< const arma::vec& >::type resids0(resids0SEXP);
-    Rcpp::traits::input_parameter< arma::mat& >::type wxr0(wxr0SEXP);
-    Rcpp::traits::input_parameter< arma::mat& >::type xltxr0(xltxr0SEXP);
-    Rcpp::traits::input_parameter< arma::mat& >::type info0(info0SEXP);
-    Rcpp::traits::input_parameter< arma::vec& >::type score0(score0SEXP);
-    Rcpp::traits::input_parameter< arma::mat& >::type scoretest(scoretestSEXP);
-    rcpp_result_gen = Rcpp::wrap(lslinregscore2(xr, w0, wxl0, xtxinv0, resids0, wxr0, xltxr0, info0, score0, scoretest));
-    return rcpp_result_gen;
-END_RCPP
-}
 // initlslogregfit
 int initlslogregfit(const arma::vec& y, const arma::mat& xl, const arma::vec& beta0, arma::mat& ql0, arma::mat& rtl0, arma::mat& rtl0inv, arma::mat& xtx0, arma::mat& xtx0inv, arma::vec& yp0, arma::vec& w0, arma::vec& w0inv, arma::mat& xlw0, arma::vec& k, arma::vec& abx, arma::vec& expabx, arma::vec& expabxp1, arma::vec& expitabx);
 RcppExport SEXP _lsReg_initlslogregfit(SEXP ySEXP, SEXP xlSEXP, SEXP beta0SEXP, SEXP ql0SEXP, SEXP rtl0SEXP, SEXP rtl0invSEXP, SEXP xtx0SEXP, SEXP xtx0invSEXP, SEXP yp0SEXP, SEXP w0SEXP, SEXP w0invSEXP, SEXP xlw0SEXP, SEXP kSEXP, SEXP abxSEXP, SEXP expabxSEXP, SEXP expabxp1SEXP, SEXP expitabxSEXP) {
@@ -745,8 +700,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_lsReg_initlslinregwald", (DL_FUNC) &_lsReg_initlslinregwald, 2},
     {"_lsReg_lslinregwaldtest", (DL_FUNC) &_lsReg_lslinregwaldtest, 14},
     {"_lsReg_lslinregrobustwaldtest", (DL_FUNC) &_lsReg_lslinregrobustwaldtest, 17},
-    {"_lsReg_initlslinreg2", (DL_FUNC) &_lsReg_initlslinreg2, 15},
-    {"_lsReg_lslinregscore2", (DL_FUNC) &_lsReg_lslinregscore2, 10},
     {"_lsReg_initlslogregfit", (DL_FUNC) &_lsReg_initlslogregfit, 17},
     {"_lsReg_lslogregfit", (DL_FUNC) &_lsReg_lslogregfit, 31},
     {"_lsReg_lslogreglikelihood", (DL_FUNC) &_lsReg_lslogreglikelihood, 3},
