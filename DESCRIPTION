@@ -1,7 +1,7 @@
 Package: lsReg
 Type: Package
 Title: Performs Large Scale Regressions
-Version: 1.0.0.9008
+Version: 1.0.0.9009
 Authors@R:
     c(person(given = "John",
              family = "Morrison",
