@@ -6,3 +6,4 @@
 ^\.claude$
 ^doc$
 ^Meta$
+^README\.md$
