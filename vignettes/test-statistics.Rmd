@@ -72,7 +72,7 @@ for (tt in testtypes) {
   mem <- lsReg(basemdl, colstoadd = 1, testtype = tt)
   for (zv in zvars) {
     xr  <- as.matrix(dat[, zv, drop = FALSE])
-    runtest(mem, xr)
+    addcovar(mem, xr)
     stat <- if (tt == "lrt") mem$testvalue[1] else mem$testvalue[1, 1]
     pval <- if (tt == "lrt") pchisq(stat, df = 1, lower.tail = FALSE) else
                              2 * pnorm(-abs(stat))

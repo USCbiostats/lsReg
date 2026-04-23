@@ -43,7 +43,7 @@ The package has a two-phase API:
 
 1. **Allocation phase** — `lsReg(basemdl, colstoadd, testtype)` pre-computes and caches expensive quantities from the base GLM (QR decomposition, residuals, info matrices). Returns an `lsregmem` S3 object.
 
-2. **Test phase** — `runtest(lsregmem, xr)` uses the cached memory to quickly compute the test statistic for a new column matrix `xr`.
+2. **Test phase** — `addcovar(lsregmem, xr)` uses the cached memory to quickly compute the test statistic for a new column matrix `xr`.
 
 ### Call stack
 
@@ -56,7 +56,7 @@ lsReg()                        # R/lsReg.R — validates inputs, dispatches by f
            └─ allocate.ls*regmem.<testtype>()  # one per test type per family
                 └─ init*() C++ function via Rcpp  # precomputes base-model quantities
 
-runtest(lsregmem, xr)          # R/teststat.R — dispatches by family + testtype
+addcovar(lsregmem, xr)          # R/teststat.R — dispatches by family + testtype
   ├─ ls*regfit() C++ — fits full model using cached QR
   └─ ls*reg<testtype>() C++ — computes test statistic
 ```
@@ -72,7 +72,7 @@ Each source file covers one regression family:
 
 ### Memory objects (`lsregmem` class)
 
-Each allocator builds a named list of pre-allocated matrices/vectors. The C++ routines mutate these in-place (pass-by-reference via Rcpp), avoiding repeated memory allocation across thousands of `runtest()` calls. The `fitdata` sub-list holds QR decomposition results for the base model.
+Each allocator builds a named list of pre-allocated matrices/vectors. The C++ routines mutate these in-place (pass-by-reference via Rcpp), avoiding repeated memory allocation across thousands of `addcovar()` calls. The `fitdata` sub-list holds QR decomposition results for the base model.
 
 ### Test data
 

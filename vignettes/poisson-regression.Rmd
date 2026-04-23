@@ -51,7 +51,7 @@ mem <- lsReg(basemdl, colstoadd = 1, testtype = "score")
 
 ## Step 3: Test each candidate covariate
 
-After each call to `runtest()` the score test statistic is in
+After each call to `addcovar()` the score test statistic is in
 `mem$testvalue`. The score test returns a z-score, so p-values are computed
 from the standard normal distribution.
 
@@ -65,7 +65,7 @@ results <- data.frame(
 
 for (i in seq_along(zvars)) {
   xr <- as.matrix(dat[, zvars[i], drop = FALSE])
-  runtest(mem, xr)
+  addcovar(mem, xr)
   results$statistic[i] <- mem$testvalue[1, 1]
 }
 ```

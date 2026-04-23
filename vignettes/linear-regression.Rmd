@@ -28,7 +28,7 @@ The workflow has two steps:
 
 1. **Allocate** — fit the base model with `glm()`, then call `lsReg()` to cache
    the quantities needed for repeated testing.
-2. **Test** — call `runtest()` once per candidate covariate, retrieving the
+2. **Test** — call `addcovar()` once per candidate covariate, retrieving the
    parameter estimate and test statistic from the allocated memory object.
 
 ## Example data
@@ -65,7 +65,7 @@ mem <- lsReg(basemdl, colstoadd = 1, testtype = "wald")
 
 ## Step 3: Test each candidate covariate
 
-Loop over `z1` through `z10`, calling `runtest()` for each. After each call the
+Loop over `z1` through `z10`, calling `addcovar()` for each. After each call the
 parameter estimate for the candidate covariate is stored in
 `mem$fitdata$betab` and the Wald test statistic in `mem$testvalue`.
 
@@ -80,7 +80,7 @@ results <- data.frame(
 
 for (i in seq_along(zvars)) {
   xr <- as.matrix(dat[, zvars[i], drop = FALSE])
-  runtest(mem, xr)
+  addcovar(mem, xr)
   results$estimate[i]  <- mem$fitdata$betab[1]
   results$statistic[i] <- mem$testvalue[1, 1]
 }

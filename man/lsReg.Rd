@@ -19,11 +19,11 @@ be \code{y ~ xl + xr}.}
 }
 \value{
 An object of class \code{lsregmem} containing pre-allocated matrices
-and cached quantities from the base model, for use with \code{\link{runtest}}.
+and cached quantities from the base model, for use with \code{\link{addcovar}}.
 }
 \description{
 Prepares and caches data structures from a fitted base GLM for use in
-repeated large-scale hypothesis tests via \code{\link{runtest}}.
+repeated large-scale hypothesis tests via \code{\link{addcovar}}.
 }
 \examples{
 datafile <- system.file("extdata", "simulated_data.rds", package = "lsReg")

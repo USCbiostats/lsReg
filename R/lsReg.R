@@ -6,7 +6,7 @@ NULL
 #' Allocate memory for large-scale regression
 #'
 #' Prepares and caches data structures from a fitted base GLM for use in
-#' repeated large-scale hypothesis tests via \code{\link{runtest}}.
+#' repeated large-scale hypothesis tests via \code{\link{addcovar}}.
 #'
 #' @param basemdl Base model of the form \code{y ~ xl}, fitted with \code{glm}.
 #'   Must be of family \code{gaussian}, \code{binomial}, or \code{poisson}.
@@ -16,7 +16,7 @@ NULL
 #'   \code{"lrt"} (default), \code{"score"}, \code{"robustscore"},
 #'   \code{"wald"}, or \code{"robustwald"}.
 #' @return An object of class \code{lsregmem} containing pre-allocated matrices
-#'   and cached quantities from the base model, for use with \code{\link{runtest}}.
+#'   and cached quantities from the base model, for use with \code{\link{addcovar}}.
 #' @export
 #'
 #' @examples

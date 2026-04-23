@@ -29,7 +29,7 @@ The workflow has two steps:
 1. **Allocate** — fit the base model with `glm()`, then call `lsReg()` to
    pre-compute and cache expensive quantities (QR decomposition, residuals,
    information matrices) from the base model.
-2. **Test** — call `runtest()` once per candidate covariate. The cached
+2. **Test** — call `addcovar()` once per candidate covariate. The cached
    quantities are reused for every test, avoiding redundant computation.
 
 ## Installation
@@ -69,7 +69,7 @@ results <- data.frame(
 
 for (i in seq_along(zvars)) {
   xr <- as.matrix(dat[, zvars[i], drop = FALSE])
-  runtest(mem, xr)
+  addcovar(mem, xr)
   results$estimate[i]  <- mem$fitdata$betab[1]
   results$statistic[i] <- mem$testvalue[1, 1]
 }

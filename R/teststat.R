@@ -25,10 +25,10 @@
 #' dat <- readRDS(datafile)
 #' basemdl <- glm(ylin ~ x1 + x2, data = dat, family = gaussian)
 #' mem <- lsReg(basemdl, colstoadd = 1, testtype = "wald")
-#' runtest(mem, as.matrix(dat[, "z5", drop = FALSE]))
+#' addcovar(mem, as.matrix(dat[, "z5", drop = FALSE]))
 #' mem$fitdata$betab[1]  # parameter estimate for z5
 #' mem$testvalue[1, 1]   # Wald z-score for z5
-runtest <- function(lsregmem, xr) {
+addcovar <- function(lsregmem, xr) {
   if (!inherits(lsregmem, "lsregmem"))
     return(1)
   if (is.list(lsregmem$fitdata) == TRUE) {

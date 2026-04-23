@@ -51,7 +51,7 @@ mem <- lsReg(basemdl, colstoadd = 1, testtype = "lrt")
 
 ## Step 3: Test each candidate covariate
 
-After each call to `runtest()` the parameter estimate is in `mem$fitdata$betab`
+After each call to `addcovar()` the parameter estimate is in `mem$fitdata$betab`
 and the LRT chi-square statistic is in `mem$testvalue`.
 
 ```{r run-tests}
@@ -65,7 +65,7 @@ results <- data.frame(
 
 for (i in seq_along(zvars)) {
   xr <- as.matrix(dat[, zvars[i], drop = FALSE])
-  runtest(mem, xr)
+  addcovar(mem, xr)
   results$estimate[i]  <- mem$fitdata$betab[1]
   results$statistic[i] <- mem$testvalue[1]
 }
