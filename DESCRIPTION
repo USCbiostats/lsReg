@@ -29,7 +29,10 @@ Description: Routines to perform large scale regression. Linear, logistic,
 License: GPL-3
 Encoding: UTF-8
 Suggests:
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
 RoxygenNote: 7.3.3
 Roxygen: list(markdown = TRUE)
 LinkingTo: 
