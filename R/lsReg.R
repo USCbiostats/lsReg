@@ -20,9 +20,10 @@ NULL
 #' @export
 #'
 #' @examples
-#' linmdlfile <- system.file("extdata", "linmodel.rds", package = "lsReg")
-#' linmodel <- readRDS(linmdlfile)
-#' link <- lsReg(linmodel, 1)
+#' datafile <- system.file("extdata", "simulated_data.rds", package = "lsReg")
+#' dat <- readRDS(datafile)
+#' basemdl <- glm(ylin ~ x1 + x2, data = dat, family = gaussian)
+#' mem <- lsReg(basemdl, colstoadd = 1, testtype = "wald")
 lsReg <- function(basemdl, colstoadd, testtype) {
   if (missing(basemdl) == TRUE)
     stop("No base model specified")
