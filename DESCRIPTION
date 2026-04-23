@@ -26,6 +26,7 @@ Description: Routines to perform large scale regression. Linear, logistic,
     fits models where a small number of covariates are changing and the
     subjects have complete data. A genome wide association study would be
     an example.
+Depends: R (>= 3.5.0)
 License: GPL-3
 Encoding: UTF-8
 Suggests:
