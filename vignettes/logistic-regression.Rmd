@@ -81,8 +81,8 @@ results$pvalue <- pchisq(results$statistic, df = 1, lower.tail = FALSE)
 print(results, digits = 4)
 ```
 
-The variables `z5` and `z9` show large LRT statistics and small p-values,
-consistent with the data-generating model.
+The variables `z5` and `z9` have the largest parameter estimates and the
+smallest p-values, consistent with the data-generating model.
 
 ## Verification against standard GLM
 

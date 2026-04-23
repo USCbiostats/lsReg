@@ -93,9 +93,9 @@ results$pvalue <- 2 * pnorm(-abs(results$statistic))
 print(results, digits = 4)
 ```
 
-The variables `z5` and `z9` show large Wald statistics and small p-values,
-consistent with the data-generating model. The remaining variables are null and
-show statistics close to zero.
+The variables `z5` and `z9` have the largest parameter estimates and the
+smallest p-values, consistent with the data-generating model. The remaining
+variables are null and show statistics close to zero.
 
 ## Verification against standard GLM
 

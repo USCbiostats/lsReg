@@ -77,8 +77,8 @@ results$pvalue <- 2 * pnorm(-abs(results$statistic))
 print(results, digits = 4)
 ```
 
-The variables `z5` and `z9` show large score statistics and small p-values,
-consistent with the data-generating model.
+The variables `z5` and `z9` have the largest score statistics and the smallest
+p-values, consistent with the data-generating model.
 
 ## Verification against statmod
 
