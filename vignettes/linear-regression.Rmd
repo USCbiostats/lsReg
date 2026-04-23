@@ -96,3 +96,38 @@ print(results, digits = 4)
 The variables `z5` and `z9` show large Wald statistics and small p-values,
 consistent with the data-generating model. The remaining variables are null and
 show statistics close to zero.
+
+## Verification against standard GLM
+
+To confirm that `lsReg` produces the same estimates and test statistics as a
+full `glm()` fit, we fit the models `ylin ~ x1 + x2 + z5` and
+`ylin ~ x1 + x2 + z9` directly and compare.
+
+```{r verify}
+glm_z5 <- glm(ylin ~ x1 + x2 + z5, data = dat, family = gaussian)
+glm_z9 <- glm(ylin ~ x1 + x2 + z9, data = dat, family = gaussian)
+
+glm_est_z5  <- coef(glm_z5)["z5"]
+glm_stat_z5 <- coef(summary(glm_z5))["z5", "t value"]
+
+glm_est_z9  <- coef(glm_z9)["z9"]
+glm_stat_z9 <- coef(summary(glm_z9))["z9", "t value"]
+
+lsreg_est_z5  <- results$estimate[results$variable == "z5"]
+lsreg_stat_z5 <- results$statistic[results$variable == "z5"]
+
+lsreg_est_z9  <- results$estimate[results$variable == "z9"]
+lsreg_stat_z9 <- results$statistic[results$variable == "z9"]
+
+comparison <- data.frame(
+  variable  = c("z5", "z9"),
+  glm_estimate  = c(glm_est_z5,  glm_est_z9),
+  lsreg_estimate = c(lsreg_est_z5, lsreg_est_z9),
+  glm_statistic  = c(glm_stat_z5,  glm_stat_z9),
+  lsreg_statistic = c(lsreg_stat_z5, lsreg_stat_z9)
+)
+print(comparison, digits = 6)
+```
+
+The estimates and test statistics from `lsReg` match those from `glm()` to
+numerical precision.
