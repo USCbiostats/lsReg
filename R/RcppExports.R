@@ -9,10 +9,6 @@ lslinregfit <- function(y, xl, xr, beta0, ql, rtl, bt, bb, betat, betab, qr, rtr
     .Call(`_lsReg_lslinregfit`, y, xl, xr, beta0, ql, rtl, bt, bb, betat, betab, qr, rtr, rbr, h, t, zb)
 }
 
-lslinregfit2 <- function(y, xl, xr, missxr, beta0, yp0, ql, rtl, k0, beta, bt, bb, betat, betab, abx, h, k, qr, rtr, rbr, scoret, scoreb, t, yp, zt, zb) {
-    .Call(`_lsReg_lslinregfit2`, y, xl, xr, missxr, beta0, yp0, ql, rtl, k0, beta, bt, bb, betat, betab, abx, h, k, qr, rtr, rbr, scoret, scoreb, t, yp, zt, zb)
-}
-
 initlslinreglrt <- function(y, xl, beta, resids, loglike) {
     .Call(`_lsReg_initlslinreglrt`, y, xl, beta, resids, loglike)
 }
